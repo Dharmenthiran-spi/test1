@@ -24,8 +24,7 @@ import os
 import sys
 import json
 import traceback
-print('hi')
-print('hello')
+
 user = User()
 
 class MyApp(BoxLayout):
