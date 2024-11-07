@@ -1,0 +1,905 @@
+<Main>:
+
+    orientation: 'vertical'
+    id:main_page
+
+    # First Navbar (Top)
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: .1
+        height: 40
+        pos_hint: {'top': 1}
+        canvas.before:
+            Color:
+                rgba: 32/255, 49/255, 65/255, 1  # RGB normalized
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            padding:70
+            spacing : 20
+            size_hint: None, None
+            size: 400, 70
+            pos_hint: {'center_y': 0.5, 'center_x': 0.1}
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    source: 'logo.png'
+                    pos: self.pos
+                    size: self.size
+
+        BoxLayout:
+            size_hint_x: 1
+            Widget:
+                size_hint:None,None
+                size:450,100
+
+            Label:
+                text: 'Di-Chem'
+                bold: True
+                size_hint: None, None
+                size: 300, 60
+                font_size: 40
+                pos_hint: {'center_x': .3, 'center_y': 0.5}
+                text_size: self.size
+                halign: 'center'
+                valign: 'middle'
+
+
+
+
+        MDIconButton:
+            icon: 'close-box'
+            icon_size: '50sp'
+            pos_hint: {'center_y': 0.5}
+            theme_text_color: 'Custom'
+            text_color: 1, 0, 0, .8  # Red color
+            radius: [0, 0, 0, 0]
+            on_release: app.delay_fn('close_window')
+
+
+    # Second Navbar (Top)
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: 40
+        canvas.before:
+            Color:
+                rgba: 50/255,65/255,85/255,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        pos_hint: {'top': 1.1}  # This sets the position at the top
+        spacing: 20
+
+        MDRectangleFlatIconButton:
+            text: 'Chemicals'
+            id:chemical_button
+            font_style: 'H6'
+            icon: 'flask'
+            icon_color: [1, 1, 1, 1]  # Light grey color
+            size_hint: (1, None)
+            font_size: '16dp'
+            text_color: [1, 1, 1, 1]
+            pos_hint: {'center_x': 0, 'center_y': 0.510}
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release: app.delay_fn('switch_to_second')
+            on_press: app.change_button_color(self)
+
+        MDRectangleFlatIconButton:
+            text: 'Batch'
+            font_style: 'H6'
+            id:batch_button
+            pos_hint: {'center_y': 0.510}
+            icon:'apps'
+            size_hint: (1, None)
+            font_size: '16dp'
+            icon_color: [1, 1, 1, 1]
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release: app.delay_fn('switch_to_third')
+            on_press: app.change_button_color(self)
+        MDRectangleFlatIconButton:
+            text: 'settings'
+            font_style: 'H6'
+            id:settings_button
+            pos_hint: {'center_y': 0.510}
+            icon: 'cog-outline'
+            size_hint: (1, None)
+            font_size: '16dp'
+            icon_color: [1, 1, 1, 1]
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release: app.delay_fn('switch_to_fourth')
+            on_press: app.change_button_color(self)
+        MDRectangleFlatIconButton:
+            text: 'Reports'
+            font_style: 'H6'
+            id:report_button
+            pos_hint: {'center_y': 0.510}
+            icon: 'receipt-text'
+            size_hint: (1, None)
+            font_size: '16dp'
+            icon_color: [1, 1, 1, 1]
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release: app.delay_fn('switch_to_fifth')
+            on_press: app.change_button_color(self)
+        MDRectangleFlatIconButton:
+            text: 'Chemical Tank'
+            font_style: 'H6'
+            id:tank_button
+            pos_hint: {'center_y': 0.510}
+            icon: 'gas-cylinder'
+            size_hint: (1, None)
+            font_size: '16dp'
+            icon_color: [1, 1, 1, 1]
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release: app.delay_fn('switch_to_main')
+            on_press: app.change_button_color(self)
+        MDRectangleFlatIconButton:
+            text: 'Station'
+            font_style: 'H6'
+            id:station_button
+            pos_hint: {'center_y': 0.510}
+            icon: 'diving-scuba-tank'
+            size_hint: (1, None)
+            font_size: '16dp'
+            icon_color: [1, 1, 1, 1]
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release:root.open_pop()
+            on_press: app.change_button_color(self)
+
+        MDRectangleFlatIconButton:
+            text: 'HMI'
+            font_style: 'H6'
+            id:hmi_button
+            pos_hint: {'center_y': 0.510}
+            icon: 'television'
+            size_hint: (1, None)
+            font_size: '16dp'
+            icon_color: [1, 1, 1, 1]
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release:root.Hmi_popup()
+            on_press: root.change_button_color(self)
+
+
+    # Additional BoxLayout inside the first BoxLayout
+    BoxLayout:
+        orientation: 'horizontal'
+        spacing: 10
+        size_hint_y: 1
+        canvas.before:
+            Color:
+                rgba: 143/255,152/255,160/255, 1  # Light blue color (R, G, B, A)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing:10
+            padding:20
+
+
+            BoxLayout:
+                size_hint:1,.05
+                padding:10
+                Label:
+                    text: 'Pending Batch'
+                    size_hint: None, None
+                    size: 200, 20
+                    bold:True
+                    font_size : 20
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                spacing: 10
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, 1
+                    id: pending_patch
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # White color (R, G, B, A)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    ScrollView:
+                        GridLayout:
+                            id: pending_batches_grid
+                            cols: 1
+                            size_hint_y: None
+                            height: self.minimum_height
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint:.6,1
+                    MDIconButton:
+                        icon: 'arrow-right'
+                        size_hint: None, None
+                        size: dp(40), dp(40)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        icon_size: '40sp'
+
+                    MDRectangleFlatIconButton:
+                        text: 'Run'
+                        id: run_button
+                        font_style: 'H6'
+                        icon: 'upload'
+                        size_hint: None, None
+                        size: dp(500), dp(150)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        font_size: '35dp'
+                        icon_color: [1, 1, 1, 1]
+                        text_color: [1, 1, 1, 1]
+                        md_bg_color: [0.3, 0.3, 0.3, 1]
+                        on_release: app.run_button_click()
+                        on_press: app.change_button_color(self)
+
+                BoxLayout:
+                    orientation:'vertical'
+                    size_hint:.7,1
+
+                    BoxLayout:
+                        orientation:'horizontal'
+                        spacing:20
+                        size_hint_y:.4
+                        MDRectangleFlatIconButton:
+                            text: 'Upload'
+                            id:upload_button
+                            icon:'file-upload'
+                            font_style: 'H6'
+                            pos_hint:{'center_y':.6}
+                            size_hint:None,None
+                            size:100,20
+                            icon_color: [1, 1, 1, 1]
+                            text_color: [1, 1, 1, 1]
+                            md_bg_color: [0.3, 0.3, 0.3, 1]
+                            on_release: root.upload_csv()
+                            on_press: root.change_button_color(self)
+
+                        MDRectangleFlatIconButton:
+                            text: 'Open'
+                            id:open_button
+                            icon:'open-in-app'
+                            font_style: 'H6'
+                            pos_hint:{'center_y':.6}
+                            size_hint:None,None
+                            size:100,20
+                            icon_color: [1, 1, 1, 1]
+                            text_color: [1, 1, 1, 1]
+                            md_bg_color: [0.3, 0.3, 0.3, 1]
+                            on_release: root.open_csv()
+                            on_press: root.change_button_color(self)
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint: 1, 1
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1  # White color (R, G, B, A)
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                        ScrollView:
+                            GridLayout:
+                                id: file_list
+                                cols: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint:1,.1
+                spacing:280
+                padding:10
+
+
+                Label:
+                    text: 'Error Message:'
+                    id: error_message
+                    size_hint: None, None
+                    size: 150, 20
+                    bold:True
+                    font_size : 20
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                Label:
+                    text: 'TX-RX Command:'
+                    id: tx_rx_command
+                    size_hint: None, None
+                    size: 200, 20
+                    bold:True
+                    font_size : 20
+
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, .05
+                spacing :10
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: 1, .1
+                    spacing: 10
+
+
+                    CheckBox:
+                        id: hmi_checkbox
+                        size_hint: None, None
+                        size: 30, 20
+                        on_active: app.show_error_message(hmi_checkbox.active, machin_checkbox.active)
+
+                    Label:
+                        text: 'HMI'
+                        size_hint: None, None
+                        size: 40, 20
+
+                    CheckBox:
+                        id: machin_checkbox
+                        size_hint: None, None
+                        size: 30, 20
+                        on_active: app.show_error_message(hmi_checkbox.active, machin_checkbox.active)
+
+                    Label:
+                        text: 'Machine'
+                        size_hint: None, None
+                        size: 50, 20
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: 1, .05
+                    spacing: 10
+
+                    CheckBox:
+                        id: hmi_checkbox_command
+                        size_hint: None, None
+                        size: 30, 20
+                        on_active: app.show_tx_rx_command(hmi_checkbox_command.active, machin_checkbox_command.active)
+
+                    Label:
+                        text: 'HMI'
+                        size_hint: None, None
+                        size: 40, 20
+
+                    CheckBox:
+                        id: machin_checkbox_command
+                        size_hint: None, None
+                        size: 30, 20
+                        on_active: app.show_tx_rx_command(hmi_checkbox_command.active, machin_checkbox_command.active)
+
+                    Label:
+                        text: 'Machine'
+                        size_hint: None, None
+                        size: 50, 20
+
+
+            BoxLayout:
+                orientation: 'vertical'
+                id:error_message
+                size_hint: 1,.4
+
+                canvas.before:
+                    Color:
+                        rgba:1,1,1,1  # Light blue color (R, G, B, A)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                ScrollView:
+                    BoxLayout:
+                        id: error_msg_grid
+                        orientation:'vertical'
+                        size_hint_y: None
+                        size_hint_x:None
+                        height: self.minimum_height
+                        width: self.minimum_width
+
+
+            BoxLayout:
+                size_hint:1,.05
+
+
+                Label:
+                    text: 'HMI-Request-List'
+                    size_hint: None, None
+                    size: 150, 20
+                    bold:True
+                    font_size : 20
+
+
+            BoxLayout:
+                orientation: 'vertical'
+                id:hmi_request_list
+                size_hint:1,.1
+                canvas.before:
+                    Color:
+                        rgba:1,1,1,1  # Light blue color (R, G, B, A)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                ScrollView:
+                    BoxLayout:
+                        id: request_list
+                        orientation:'horizontal'
+                        padding:10
+                        spacing:20
+                        size_hint_x: None
+                        width: self.minimum_width
+
+
+
+            BoxLayout:
+                spacing:20
+                padding:40
+                size_hint:1,.1
+                pos_hint:{"x":.1}
+
+                GridLayout:
+                    cols:4
+                    spacing:20
+
+                    Label:
+                        text: 'HMI-Status:'
+                        font_size:18
+                        size_hint: None, None
+                        size: 150, 30
+                        bold:True
+                        font_size : 20
+
+                    Button:
+                        id: connection_button
+                        text: ''
+                        size_hint: None, None
+                        size: 150, 30
+
+                    Label:
+                        text: 'M\C-Status:'
+                        font_size:18
+                        size_hint: None, None
+                        size: 150, 30
+                        bold:True
+                        font_size : 20
+
+                    Button:
+                        id: machin_connection_button
+                        text: ''
+                        size_hint: None, None
+                        size: 150, 30
+
+
+
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            id:tank_data_add
+            spacing:10
+            canvas.before:
+                Color:
+                    rgba: 32/255,49/255,65/255,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                size_hint:1,.4
+                id:chemical_Grid
+                GridLayout:
+                    cols: 4
+                    id:tank_pending_grid
+                    spacing:50
+                    padding:50
+                    Label:
+                        text: 'Valve No'
+                        size_hint: None, None
+                        size: 200, 20
+                        font_size : 17
+                        bold :True
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    Label:
+                        text: ''
+                        id: valve_no
+                        size_hint: None, None
+                        size: 150, 20
+
+                    Label:
+                        text: 'Stock'
+                        size_hint: None, None
+                        size: 150, 20
+                        font_size : 17
+                        bold :True
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    Label:
+                        text: ''
+                        id: stock_no
+                        size_hint: None, None
+                        size: 150, 20
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    Label:
+                        text: 'Chemical'
+                        size_hint: None, None
+                        size: 200, 20
+                        font_size : 17
+                        bold :True
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    Label:
+                        text: ''
+                        id: Chemical_no
+                        size_hint: None, None
+                        size: 150, 20
+
+
+                    Label:
+                        text: 'Min Stock'
+                        size_hint: None, None
+                        size: 150, 20
+                        font_size : 17
+                        bold :True
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    Label:
+                        text: '0'
+                        id: minstock_no
+                        size_hint: None, None
+                        size: 150, 20
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    Label:
+                        text: 'Stock Addition'
+                        size_hint: None, None
+                        size: 200, 20
+                        font_size : 17
+                        bold :True
+                        halign: 'left'
+                        valign: 'middle'
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    TextInput:
+                        id: stock_addition
+                        multiline: False
+                        input_filter:lambda text, from_undo:text if text.isdigit() or text == " "  else ''
+                        size_hint: None, None
+                        size: 150, 30
+                        halign:'center'
+
+
+                    MDRectangleFlatIconButton:
+                        text: 'Add'
+                        id: add
+                        font_style: 'H6'
+                        size_hint: None, None
+                        size: 200, 30
+                        icon: 'plus-box'
+                        font_size: '16dp'
+                        icon_color: [1, 1, 1, 1]
+                        text_color: [1, 1, 1, 1]
+                        md_bg_color: [0.3, 0.3, 0.3, 1]
+                        on_release: app.add_stock()
+                        on_press: app.change_button_color(self)
+            BoxLayout:
+                orientation: 'vertical'
+                ScrollView:
+                    id:scroll_view
+                    do_scroll_x: False
+                    do_scroll_y: False
+
+                    GridLayout:
+                        spacing:0
+                        padding:0
+                        id: tank_grid
+                        size_hint_x: 1
+                        size_hint_y:None
+                        height: self.minimum_height
+
+<Batch>:
+    BoxLayout:
+        BoxLayout:
+            size_hint:.45,1
+
+        GridLayout:
+            pos_hint :{'center_x':.9}
+            spacing: 20
+            cols: 2
+
+            Label:
+                text: 'Batch Name : '
+                size_hint:None,None
+                size:150,30
+                font_size : 15
+                bold :True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            Label:
+                text: ''
+                id: batch_name
+                color: 0, 0, 0, 1
+                size_hint:None,None
+                size:150,30
+                color:(0,0,0,1)
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # red
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            Label:
+                text: 'Fabric Weight : '
+                size_hint:None,None
+                size:150,30
+                font_size : 15
+                bold :True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+            Label:
+                text: ''
+                id: fabric_weight
+                color: 0, 0, 0, 1
+                size_hint:None,None
+                size:150,30
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # red
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            Label:
+                text: 'MLR : '
+                size_hint:None,None
+                size:150,30
+                font_size : 15
+                bold :True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+            Label:
+                text: ''
+                id: mlr
+                color: 0, 0, 0, 1
+                size_hint:None,None
+                size:150,30
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # red
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            Label:
+                text: 'Machin No : '
+                size_hint:None,None
+                size:150,30
+                font_size : 15
+                bold :True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            Label:
+                text: ''
+                id: machin_no
+                color: 0, 0, 0, 1
+                size_hint:None,None
+                size:150,30
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # red
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            Label:
+                text: 'Created By : '
+                size_hint:None,None
+                size:150,30
+                font_size : 15
+                bold :True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            Label:
+                text: ''
+                size_hint:None,None
+                size:150,30
+                id: created_by
+                color: 0, 0, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # red
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: 'Created Date : '
+                size_hint:None,None
+                size:150,30
+                font_size : 15
+                bold :True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            Label:
+                text: ''
+                size_hint:None,None
+                size:150,30
+                id: created_date
+                color: 0, 0, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # red
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+
+<StationDetails>:
+    BoxLayout:
+        orientation:'vertical'
+        spacing:10
+        padding:10
+        BoxLayout:
+
+            GridLayout:
+                cols:3
+                spacing:10
+                Label:
+                    text:'Selected Station'
+                    size_hint:None,None
+                    size:150,30
+                    font_size : 20
+                    bold :True
+
+                Label:
+                    id:selected_station
+                    size_hint:None,None
+                    size:150,30
+                    font_size:40
+                    bold:True
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+
+
+                Button:
+                    text:'open'
+                    size_hint:None,None
+                    size:100,30
+                    on_release: root.on_open_button_press(isinstance)
+        BoxLayout:
+
+            GridLayout:
+                cols:2
+                spacing:10
+                Button:
+                    text:'1'
+                    size_hint:None,None
+                    size:200,30
+                    background_color:(3, 3, 3, 1)
+                    color:(0, 0, 0, 3)
+                    on_release:root.on_station_button_click(self)
+                Button:
+                    text:'2'
+                    size_hint:None,None
+                    size:200,30
+                    background_color:(3, 3, 3, 1)
+                    color:(0, 0, 0, 3)
+                    on_release:root.on_station_button_click(self)
+                Button:
+                    text:'3'
+                    size_hint:None,None
+                    size:200,30
+                    background_color:(3, 3, 3, 1)
+                    color:(0, 0, 0, 3)
+                    on_release:root.on_station_button_click(self)
+                Button:
+                    text:'4'
+                    size_hint:None,None
+                    size:200,30
+                    background_color:(3, 3, 3, 1)
+                    color:(0, 0, 0, 3)
+                    on_release:root.on_station_button_click(self)
+
+<HmiPolling>:
+    orientation:'vertical'
+    spacing:10
+    padding:20
+    BoxLayout:
+        orientation:'horizontal'
+        size_hint:1,.1
+        spacing:20
+        padding:0
+
+        Button:
+            text:'Request-Batch'
+            size_hint:None,None
+            size:150,30
+            on_release:root.on_batch_button_press()
+        Button:
+            text:'Batch-Details'
+            size_hint:None,None
+            size:150,30
+            on_release:root.on_batch_Request_button_press()
+        Label:
+            id: slave_id
+            size_hint:None,None
+            size:150,30
+            font_size:35
+            bold:True
+            color:0,0,0,1
+
+
+
+    BoxLayout:
+        orientation:'horizontal'
+        spacing:20
+        id:hmi_slaveid
+        size_hint:1,.2
+
+
+
+    BoxLayout:
+        spacing:10
+        padding:20
+        ScrollView:
+            GridLayout:
+                id: tx_data_batch
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                size_hint_x: None
+                height: self.minimum_width
+
+
+
+
+
+
+
+
+
+
+
+

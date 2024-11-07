@@ -1,0 +1,16 @@
+.idea/
+.venv/
+build/
+__pycache__/
+dist/
+venv/
+Document/
+DiChem_V1/
+Di-Chem/**/*.log
+Di-Chem/**/*.json
+Di-Chem/**/*.pdf
+Di-Chem/**/*.exe
+Di-Chem/**/*.spec
+Di-Chem/**/*.csv
+Di-Chem/ComSerializer.py
+Di-Chem/hmi.py

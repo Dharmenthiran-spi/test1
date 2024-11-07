@@ -1,0 +1,115 @@
+MDCard:
+    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+    elevation: 3
+    radius: [1, 1, 7, 7]
+    size_hint: None, None
+    size: 700, 400
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 0
+
+            BoxLayout:
+                size_hint: None, None
+                size: 300, 340
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Rectangle:
+                        source: 'logindi.png'
+                        pos: self.pos
+                        size: self.size
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: 10
+
+                Label:
+                    text: 'Di-Chem'
+                    pos_hint: {'center_x': 0.65, 'center_y': 0.11}
+                    bold: True
+                    font_size: 42
+                    color: (0, 0, 0, 1)
+
+                BoxLayout:
+                    pos_hint: {'center_x': 0.6, 'center_y': 1}
+                    GridLayout:
+                        cols: 1
+                        pos_hint: {'center_x': 0.5, 'center_y': 1}
+                        spacing: 25
+                        padding: 60
+
+                        LoginTextInput:
+                            id: user_name
+                            size_hint: None, None
+                            size: 190, 30
+                            hint_text: "UserName"
+                            multiline: False
+                            icon_left: "account"
+                            write_tab: False
+                            color: (0, 0, 0, 1)
+                            maxlength: 15
+                            input_filter: lambda text, from_undo: text if text.isalnum() or text == " " or text == "_" else ''
+
+                        LoginTextInput:
+                            id: password
+                            hint_text: "Password"
+                            size_hint: None, None
+                            size: 190, 30
+                            spacing: 10
+                            multiline: False
+                            password: True
+                            icon_left: "key-variant"
+                            write_tab: False
+                            color: (0, 0, 0, 1)
+                            maxlength: 10
+                            input_filter: lambda text, from_undo: text if text.isalnum() or text == " " or text == "_" else ''
+                BoxLayout:
+                    pos_hint: {'center_x': 0.6, 'center_y': 0.1}
+                    GridLayout:
+                        cols: 2
+                        size_hint: 1, 1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+                        spacing: 30
+                        Button:
+                            text: 'Login'
+                            size_hint: None, None
+                            size: 150, 30
+                            on_release: app.switch_to_main()
+
+                        Button:
+                            text: 'Cancel'
+                            size_hint: None, None
+                            size: 150, 30
+                            on_release: app.dismiss_screen()
+
+            BoxLayout:
+                size_hint:.6,1
+                pos_hint: {'center_x': .6, 'center_y': 0.5}
+
+                MDIconButton:
+                    pos_hint: {'center_x': .41, 'center_y': 0.35}
+                    icon: "eye-off"
+                    spacing: 10
+                    theme_text_color: "Hint"
+                    on_release:
+                        self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                        password.password = False if password.password is True else True
+
+        BoxLayout:
+            size_hint: (1, 0.05)
+            pos_hint: {'center_y': 0.7}
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'Di-Chem. A Chemical Dispenser from SPI Equipments India Pvt Ltd. All rights reserved'
+                color: (0, 0, 0, 1)
+                pos_hint: {'center_y': 0.7}

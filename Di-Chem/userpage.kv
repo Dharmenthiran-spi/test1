@@ -1,0 +1,389 @@
+<NTextInput>:
+    on_text: app.root.on_text_valid_suggest_dyecode(self)
+    write_tab: False
+
+<MyApp>:
+    orientation: 'vertical'
+    title: 'User'
+    canvas.before:
+        Color:
+            rgba: 32/255.0, 49/255.0, 65/255.0, 1  # Light blue color (R, G, B, A)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: .1
+        height: 40
+        pos_hint: {'top': 1}
+        canvas.before:
+            Color:
+                rgba: 32/255.0, 49/255.0, 65/255.0, 1  # RGB normalized
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            padding: 70
+            spacing: 20
+            size_hint: None, None
+            size: 400, 70
+            pos_hint: {'center_y': 0.52, 'center_x': 0.1}
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    source: 'logo.png'
+                    pos: self.pos
+                    size: self.size
+
+        FloatLayout:
+            orientation: 'horizontal'
+            size_hint: (1, .1)
+            height: 40
+            pos_hint: {'center_x': 1, 'center_y': 0.5}
+            background_color: (32/255.0, 49/255.0, 75/255.0, 1)
+
+            MDIconButton:
+                icon: 'home-circle-outline'
+                id: home
+                icon_size: '60sp'
+                on_release: app.delay_fn('switch_to_main')
+                pos_hint: {'center_x': 0.975, 'center_y': 0.2}
+                theme_text_color: 'Custom'
+                text_color: [1, 1, 1, 1]
+                radius: [50, 50, 50, 50]
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:20
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 40
+            pos_hint: {'top': 1}
+            spacing: 20
+            MDRectangleFlatIconButton:
+                text: 'General'
+                id: general_button
+                font_style: 'H6'
+                size_hint: (.155, None)
+                icon: 'home-account'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release: app.delay_fn('switch_to_general')
+                on_press: app.change_button_color(self)
+
+            MDRectangleFlatIconButton:
+                text: 'User'
+                id: user_button
+                font_style: 'H6'
+                size_hint: (.155, None)
+                icon: 'account'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0, 0, 0, 1]
+                on_release: app.delay_fn('switch_to_user')
+                on_press: app.change_button_color(self)
+
+            MDRectangleFlatIconButton:
+                text: 'Tanks'
+                id: tanks_button
+                font_style: 'H6'
+                size_hint: (.155, None)
+                icon: 'gas-cylinder'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release: app.delay_fn('switch_to_tanks')
+                on_press: app.change_button_color(self)
+
+            Widget:
+                size_hint: 1, .05
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, .3
+            spacing: 10
+
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                pos_hint: {'center_x': .5, 'center_y': 1}
+                spacing: 10
+                size_hint:.15,.3
+
+
+                MDRectangleFlatIconButton:
+                    text: 'New'
+                    id: new_button
+                    font_style: 'H6'
+                    size_hint: None, None
+                    size: 150, 30
+                    icon: 'open-in-new'
+                    icon_color: [1, 1, 1, 1]  # Light grey color
+                    font_size: '16dp'
+                    text_color: [1, 1, 1, 1]
+                    md_bg_color: [0.3, 0.3, 0.3, 1]
+                    on_release: root.newpop()
+                    on_press: app.change_button_color(self)
+
+                MDRectangleFlatIconButton:
+                    text: 'Delete'
+                    font_style: 'H6'
+                    id: delete_button
+                    size_hint: None, None
+                    size: 150, 30
+                    icon: 'trash-can'
+                    icon_color: [1, 1, 1, 1]  # Light grey color
+                    font_size: '16dp'
+                    text_color: [1, 1, 1, 1]
+                    md_bg_color: [0.3, 0.3, 0.3, 1]
+                    on_release: root.show_delete_popup(self, root.selected_user_data.get('user_id', None))
+                    on_press: app.change_button_color(self)
+
+
+            BoxLayout:
+                orientation:'horizontal'
+
+                GridLayout:
+                    cols: 4
+                    spacing: 20
+                    padding: 10
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+                    size_hint: 1, 1
+
+                    Label:
+                        text: 'Name'
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size: 17
+                        bold: True
+                        text_size: self.size
+                        halign: 'left'
+                        valign: 'middle'
+
+                    Label:
+                        text: 'User Name'
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size: 17
+                        bold: True
+                        text_size: self.size
+                        halign: 'left'
+                        valign: 'middle'
+
+                    Label:
+                        text: 'PassWord'
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size: 17
+                        bold: True
+                        text_size: self.size
+                        halign: 'left'
+                        valign: 'middle'
+
+                    Label:
+                        text: 'Previlage'
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size: 17
+                        bold: True
+                        text_size: self.size
+                        halign: 'left'
+                        valign: 'middle'
+
+                    Label:
+                        id: name
+                        size_hint: None, None
+                        size: 150, 30
+                        multiline: False
+                        readonly: True
+                        color: (0, 0, 0, 1)
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                    Label:
+                        id: user_name
+                        size_hint: None, None
+                        size: 150, 30
+                        multiline: False
+                        readonly: True
+                        color: (0, 0, 0, 1)
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                    Label:
+                        id: password
+                        size_hint: None, None
+                        size: 150, 30
+                        multiline: False
+                        readonly: True
+                        color: (0, 0, 0, 1)
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                    Label:
+                        id: pre_vilage
+                        size_hint: None, None
+                        size: 150, 30
+                        multiline: False
+                        readonly: True
+                        color: (0, 0, 0, 1)
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                BoxLayout:
+
+                    pos_hint:{'center_x':.4,'center_y':1}
+                    MDRectangleFlatIconButton:
+
+                        text: 'Save'
+                        id: save_button
+                        font_style: 'H6'
+                        size_hint: None, None
+                        size: 150, 30
+                        icon: 'content-save'
+                        icon_color: [1, 1, 1, 1]  # Light grey color
+                        font_size: '16dp'
+                        text_color: [1, 1, 1, 1]
+                        md_bg_color: [0.3, 0.3, 0.3, 1]
+                        on_release: app.save_changes()
+                        on_press: app.change_button_color(self)
+
+
+
+
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # Light blue color (R, G, B, A)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            ScrollView:
+                GridLayout:
+                    id: setting_user
+                    cols: 5
+                    size_hint_y: None
+                    height: self.minimum_height
+
+
+
+
+<NewUser>:
+
+
+    GridLayout:
+        cols: 2
+        spacing: 20
+        padding: 20
+
+        Label:
+            text: 'Name'
+            size_hint: None, None
+            size: 150, 30
+            font_size:17
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        FocusTextInput:
+            id: name
+            size_hint: None, None
+            size: 150, 30
+            multiline: False
+            write_tab: False
+            maxlength:15
+            input_filter:lambda text, from_undo:text if text.isalnum() or text == " " or text == "_" else ''
+
+
+        Label:
+            text: 'User Name'
+            size_hint: None, None
+            size: 150, 30
+            font_size:17
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        FocusTextInput:
+            id: user_name
+            size_hint: None, None
+            size: 150, 30
+            multiline: False
+            write_tab: False
+            maxlength:15
+            input_filter:lambda text, from_undo:text if text.isalnum() or text == " " or text == "_" else ''
+
+
+        Label:
+            text: 'Password'
+            size_hint: None, None
+            size: 150, 30
+            font_size:17
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        FocusTextInput:
+            id: password
+            size_hint: None, None
+            size: 150, 30
+            multiline: False
+            write_tab: False
+            maxlength:10
+            input_filter:lambda text, from_undo:text if text.isalnum() or text == " " or text == "_" else ''
+
+
+        Label:
+            text: 'Privilege'
+            size_hint: None, None
+            size: 150, 30
+            font_size:17
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        Spinner:
+            id: pre_vilage
+            size_hint: None, None
+            values: ['Admin', 'User']
+            size: 150, 30
+            color: 0, 0, 0, 3
+            background_color: 3, 3, 3, 1
+            on_text: root.spinner_clicked(self, pre_vilage.text)
+            focus: True
+
+        Button:
+            text: 'Save'
+            size_hint: None, None
+            size: 150, 30
+            on_release: root.save_user_data(self)

@@ -1,0 +1,622 @@
+
+<MyApp>:
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: 32/255, 49/255, 65/255, 1 # Light blue color (R, G, B, A)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: .1
+        height: 40
+        pos_hint: {'top': 1}
+        canvas.before:
+            Color:
+                rgba: 32/255, 49/255, 65/255, 1  # RGB normalized
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            padding:70
+            spacing : 20
+            size_hint: None, None
+            size: 400, 70
+            pos_hint: {'center_y': 0.17, 'center_x': 0.1}
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    source: 'logo.png'
+                    pos: self.pos
+                    size: self.size
+        FloatLayout:
+            orientation: 'horizontal'
+            size_hint:(1,1)
+            height: 40
+            pos_hint: {'center_x': 1, 'center_y': 0.2}
+            background_color:(32/255, 49/255, 75/255, 1)
+
+            MDIconButton:
+                icon:'home-circle-outline'
+                id:home
+                icon_size:'60dp'
+                on_release:app.delay_fn('switch_to_main')
+                pos_hint: {'center_x':0.975, 'center_y': 0.5}
+                theme_text_color: 'Custom'
+                text_color: [1, 1, 1, 1]
+                radius: [50, 50, 50, 50]
+                #md_bg_color: [0, 0, 0, 1]
+
+
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint:1,.8
+        BoxLayout:
+            orientation:'vertical'
+            size_hint:1,1
+            spacing:30
+            BoxLayout:
+                orientation:'horizontal'
+                size_hint:1,.3
+                spacing:20
+                MDRectangleFlatIconButton:
+                    text:'Export'
+                    size_hint:None,None
+                    size:150,30
+                    font_style: 'H6'
+                    icon: 'file-export'
+                    icon_color: [1, 1, 1, 1]  # Light grey color
+                    font_size: '16dp'
+                    text_color: [1, 1, 1, 1]
+                    md_bg_color: [0.3, 0.3, 0.3, 1]
+                    on_release: app.show_save_dialog()
+                    on_press: app.change_button_color(self)
+
+                MDRectangleFlatIconButton:
+                    text:'Print'
+                    size_hint:None,None
+                    size:150,30
+                    font_style: 'H6'
+                    icon: 'printer'
+                    icon_color: [1, 1, 1, 1]  # Light grey color
+                    font_size: '16dp'
+                    text_color: [1, 1, 1, 1]
+                    md_bg_color: [0.3, 0.3, 0.3, 1]
+                    on_release: app.show_print_dialog()
+                    on_press: app.change_button_color(self)
+
+                MDRectangleFlatIconButton:
+                    text:'Gmail'
+                    size_hint:None,None
+                    size:150,30
+                    font_style: 'H6'
+                    icon: 'gmail'
+                    icon_color: [1, 1, 1, 1]  # Light grey color
+                    font_size: '16dp'
+                    text_color: [1, 1, 1, 1]
+                    md_bg_color: [0.3, 0.3, 0.3, 1]
+                    on_release: app.gmail_popup()
+                    on_press: app.change_button_color(self)
+
+            BoxLayout:
+                size_hint:1,.2
+                padding:10
+                GridLayout:
+                    cols: 7
+                    spacing: 30
+
+                    Label:
+                        text: 'From'
+                        size_hint: None, None
+                        size: 100, 30
+                        font_size:17
+                        bold:True
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    MDRectangleFlatIconButton:
+                        text: "                                  "
+                        icon: 'calendar-blank'
+                        icon_color: [1, 1, 1, 1]
+                        size_hint: (None, None)
+                        size: (450, 30)  # Adjusted size
+                        font_size: '16dp'
+                        md_bg_color: [0.3, 0.3, 0.3, 1]
+                        text_color: [1, 1, 1, 1]
+                        on_release: app.show_from_picker()
+                        id: selected_from_label
+
+
+
+                    Label:
+                        text: 'To'
+                        size_hint: None, None
+                        size: 50, 30
+                        font_size:17
+                        bold:True
+                        text_size:self.size
+                        halign:'left'
+                        valign:'middle'
+
+                    MDRectangleFlatIconButton:
+                        text: "                                  "
+                        id : to_date
+                        icon: 'calendar-blank'
+                        icon_color: [1, 1, 1, 1]  # Light grey color
+                        size_hint: (None, None)
+                        size:450,30
+                        font_size: '16dp'
+                        md_bg_color: [0.3, 0.3, 0.3, 1]
+                        text_color: [1, 1, 1, 1]
+                        on_release: app.show_to_picker()
+                        id: selected_to_label
+
+
+                    Button:
+                        text: 'All'
+                        id:all_button
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size : 17
+                        font_name : "Aileron-Bold.otf"
+                        on_release:root.ReportData()
+                    Button:
+                        text: 'Open'
+                        id: open_button
+                        font_size : 17
+                        font_name : "Aileron-Bold.otf"
+                        size_hint: None, None
+                        size: 150, 30
+                        on_release:root.openreport()
+
+            BoxLayout:
+                size_hint:1,1
+                BoxLayout:
+                    padding:10
+                    GridLayout:
+                        cols: 6
+                        spacing: 30
+
+                        Label:
+                            text: 'Chemical'
+                            size_hint: None, None
+                            size: 100, 30
+                            font_size:17
+                            bold:True
+                            text_size:self.size
+                            halign:'left'
+                            valign:'middle'
+
+                        TextInput:
+                            id: re_chem_spin
+                            size_hint: None, None
+                            size: 200, 30
+                            color:0,0,0,3
+                            background_color: 3, 3, 3, 1
+                            on_focus: root.on_textinput_focus(self, self.focus)
+                            focus:False
+                            on_text: root.filter_chemicals(self.text)
+                            multiline :False
+                            write_tab: False
+
+                        Button:
+                            text: 'Chemical'
+                            id:chemical_button
+                            size_hint: None, None
+                            size: 150, 30
+                            font_size : 17
+                            font_name : "Aileron-Bold.otf"
+                            on_release:root.Chemical_data()
+
+                        Label:
+                            text: 'Batch Name'
+                            size_hint: None, None
+                            size: 150, 30
+                            font_size:17
+                            bold:True
+                            text_size:self.size
+                            halign:'left'
+                            valign:'middle'
+
+                        TextInput:
+                            id: batch_name_report
+                            size_hint: None, None
+                            size: 200, 30
+                            color:0,0,0,3
+                            background_color: 3, 3, 3, 1
+                            on_focus: root.on_batch_textinput_focus(self, self.focus)
+                            focus:False
+                            on_text: root.filter_batch_names(self.text)
+                            write_tab: False
+                            multiline :False
+                        Button:
+                            text: 'Batch'
+                            id:batch_button
+                            size_hint: None, None
+                            size: 150, 30
+                            font_size : 17
+                            font_name : "Aileron-Bold.otf"
+                            on_release:root.bach_data()
+        BoxLayout:
+            id: batch_meta_data
+            size_hint:.5,1
+            GridLayout:
+                padding:30
+                spacing: 25
+                id:metadata_grid
+                cols: 2
+
+                Label:
+                    text: 'Batch ID : '
+                    size_hint:None,None
+                    size:150,30
+                    font_size:17
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                Label:
+                    text: ''
+                    id: batch_id
+                    color: 0, 0, 0, 1
+                    size_hint:None,None
+                    size:0,30
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+                    size_hint: None, None
+                    size: 150, 30
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                Label:
+                    text: 'Batch Name : '
+                    size_hint:None,None
+                    size:150,30
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                Label:
+                    text: ''
+                    id: batch_name
+                    color: 0, 0, 0, 1
+                    size_hint:None,None
+                    size:0,30
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+                    size_hint: None, None
+                    size: 150, 30
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                Label:
+                    text: 'Fabric Weight : '
+                    size_hint:None,None
+                    size:150,30
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                Label:
+                    text: ''
+                    id: fabric_weight
+                    color: 0, 0, 0, 1
+                    size_hint:None,None
+                    size:.5,30
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+                    size_hint: None, None
+                    size: 150, 30
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                Label:
+                    text: 'MLR :  '
+                    size_hint:None,None
+                    size:150,30
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                Label:
+                    text: ''
+                    id: mlr
+                    color: 0, 0, 0, 1
+                    size_hint:None,None
+                    size:.5,30
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+                    size_hint: None, None
+                    size: 150, 30
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                Label:
+                    text: 'Machin No :  '
+                    size_hint:None,None
+                    size:150,30
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                Label:
+                    text: ''
+                    id: machin_no
+                    color: 0, 0, 0, 1
+                    size_hint:None,None
+                    size:.5,30
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+                    size_hint: None, None
+                    size: 150, 30
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                Label:
+                    text: 'Created By :  '
+                    size_hint:None,None
+                    size:150,30
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                Label:
+                    text: ''
+                    id: created_by
+                    color: 0, 0, 0, 1
+                    size_hint:None,None
+                    size:.5,30
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+                    size_hint: None, None
+                    size: 150, 30
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                Label:
+                    text: 'Created Date :  '
+                    size_hint:None,None
+                    size:150,30
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                Label:
+                    text: ''
+                    size_hint:None,None
+                    size:0,30
+                    id: created_date
+                    color: 0, 0, 0, 1
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+                    size_hint: None, None
+                    size: 150, 30
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Light blue color (R, G, B, A)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScrollView:  # Wrap your GridLayout with a ScrollView
+            GridLayout:
+                id: report_batch_grid
+                cols: 10
+                size_hint_y: None
+                height: self.minimum_height
+
+<OpenReportBatch>:
+
+    GridLayout:
+        cols:2
+        spacing:30
+        padding:30
+
+        TextInput:
+            id: search_input_report
+            size_hint: None, None
+            size: 250, 30
+            on_text: root.on_search_input_change_report(self.text)
+        Label:
+            id:selected_batch_report
+            size_hint:None,None
+            size:100,30
+            font_size:40
+            bold:True
+            text_size:self.size
+            halign:'center'
+            valign:'middle'
+
+
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                id:total_batch_report
+                size_hint_y: None
+                height: self.minimum_height
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Light blue color (R, G, B, A)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+        BoxLayout:
+            Button:
+                text:'open'
+                size_hint:None,None
+                size:100,30
+                pos_hint: {'center_x': 1, 'center_y': 0.9}
+                font_size : 17
+                font_name : "Aileron-Bold.otf"
+                on_release: root.on_open_button_press_report(isinstance)
+
+<OpenGamil>:
+    GridLayout:
+        cols:2
+        spacing:30
+        padding:10
+
+        Label:
+            text:'Gmail:'
+            id:g_mail
+            size_hint: None, None
+            size:100,30
+            font_size:20
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        TextInput:
+            hint_text:'Enabled 2Fa Gmail'
+            id:gmail_name
+            size_hint: None, None
+            size: 300, 30
+            color:0,0,0,3
+            background_color: 3, 3, 3, 1
+            on_focus: root.on_gmail_textinput_focus(self, self.focus)
+            focus:False
+            on_text: root.filter_gmail(self.text)
+            multiline :False
+            write_tab: False
+
+        Label:
+            text:'PassWord:'
+            id:pass_word
+            size_hint: None, None
+            size:100,30
+            font_size:20
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        TextInput:
+            hint_text:'App Password'
+            id:gmail_password
+            size_hint: None, None
+            size: 300, 30
+            color:0,0,0,3
+            background_color: 3, 3, 3, 1
+            focus:False
+            multiline :False
+            write_tab: False
+
+        Label:
+            text:'To:'
+            id:g_mail_to
+            size_hint: None, None
+            size:100,30
+            font_size:20
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        TextInput:
+
+            id:mail_to
+            size_hint: None, None
+            size:300,30
+            color:0,0,0,3
+            background_color: 3, 3, 3, 1
+            on_focus: root.to_gmail_textinput_focus(self, self.focus)
+            focus:False
+            on_text: root.filter_gmail_to(self.text)
+            multiline :False
+            write_tab: False
+
+
+
+
+        Label:
+            text:'Subject:'
+            id:g_mail
+            size_hint: None, None
+            size:100,30
+            font_size:20
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        TextInput:
+            id:mail_subject
+            size_hint: None, None
+            size:400,50
+            multiline:True
+
+        Label:
+            text:'Body:'
+            id:g_mail
+            size_hint: None, None
+            size:100,30
+            font_size:20
+            bold:True
+            text_size:self.size
+            halign:'left'
+            valign:'middle'
+
+        TextInput:
+            id:mail_body
+            size_hint: None, None
+            size:400,30
+            multiline:True
+
+
+        Button:
+            text:'Send'
+            size_hint: None, None
+            size:80,30
+            on_release:root.export_gmail_parameters()
+

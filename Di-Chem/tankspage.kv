@@ -1,0 +1,1428 @@
+
+<MyApp>:
+    orientation: 'vertical'
+    title: 'Tanks'
+    canvas.before:
+        Color:
+            rgba: 32/255, 49/255, 65/255, 1 # Light blue color (R, G, B, A)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: .1
+        height: 40
+        pos_hint: {'top': 1}
+        canvas.before:
+            Color:
+                rgba: 32/255, 49/255, 65/255, 1  # RGB normalized
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            padding:70
+            spacing : 20
+            size_hint: None, None
+            size: 400, 70
+            pos_hint: {'center_y': 0.52, 'center_x': 0.1}
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    source: 'logo.png'
+                    pos: self.pos
+                    size: self.size
+        FloatLayout:
+            orientation: 'horizontal'
+            size_hint:(1,.1)
+            height: 40
+            pos_hint: {'center_x': 1, 'center_y': 0.5}
+            background_color:(32/255, 49/255, 75/255, 1)
+
+            MDIconButton:
+                icon:'home-circle-outline'
+                id:home
+                icon_size:'60sp'
+                on_release:app.delay_fn('switch_to_main')
+                pos_hint: {'center_x':0.975, 'center_y': 0.2}
+                theme_text_color: 'Custom'
+                text_color: [1, 1, 1, 1]
+                radius: [50, 50, 50, 50]
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 20
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            id:icon_box
+            height: 40
+            pos_hint: {'top': 1}
+
+            spacing: 20
+
+
+            MDRectangleFlatIconButton:
+                text: 'General'
+                id: general_button
+                font_style: 'H6'
+                size_hint: (.155, None)
+                icon: 'home-account'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release:app.delay_fn('switch_to_general')
+                on_press: app.change_button_color(self)
+
+
+            MDRectangleFlatIconButton:
+                text: 'User'
+                id: user_button
+                font_style: 'H6'
+                size_hint: (.155, None)
+                icon: 'account'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release:app.delay_fn('switch_to_user')
+                on_press: app.change_button_color(self)
+
+            MDRectangleFlatIconButton:
+                text: 'Tanks'
+                id: tanks_button
+                size_hint: (.155, None)
+                icon: 'gas-cylinder'
+                font_style: 'H6'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0, 0, 0, 1]
+                on_release:app.delay_fn('switch_to_tanks')
+                on_press: app.change_button_color(self)
+
+
+            Widget:
+                size_hint:1,1
+
+
+
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+            size_hint_y: None
+            height: 40
+            pos_hint: {'top': 1}
+            MDRectangleFlatIconButton:
+                text: 'Tank Wash'
+                id:tank_wash_button
+                size_hint: None, None
+                font_style: 'H6'
+                size: 200, 30
+                icon: 'dishwasher'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release: root.tankpop()
+                on_press: app.change_button_color(self)
+
+
+            MDRectangleFlatIconButton:
+                text: 'New'
+                id: new_button
+                font_style: 'H6'
+                size_hint: None, None
+                size: 200, 30
+                icon: 'open-in-app'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release: root.newtank()
+                on_press: app.change_button_color(self)
+
+
+
+
+
+            MDRectangleFlatIconButton:
+                text: 'Delete'
+                id: delete_button
+                font_style: 'H6'
+                size_hint: None, None
+                size: 200, 30
+                icon: 'trash-can'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release: root.confirm_delete_popup()
+                on_press: app.change_button_color(self)
+
+            Label:
+                text: 'Caution :'
+                size_hint: None, None
+                size: 250, 30
+                color: 1, 0, 0, 1
+                font_size:17
+                bold:True
+                text_size:self.size
+                halign:'right'
+                valign:'middle'
+
+            Label:
+                text: 'Do not change without manufacturer approval'
+                size_hint: None, None
+                size: 500, 30
+                color: 1, 0, 0, 1
+                font_size:17
+                bold:True
+                text_size:self.size
+                halign:'center'
+                valign:'middle'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, .2
+            padding: 10
+            BoxLayout:
+                size_hint:.02,1
+            BoxLayout:
+                size_hint:.09,1
+
+                GridLayout:
+                    cols: 4
+                    spacing: 20
+                    pos_hint: {'center_x': .001, 'center_y': 0.5}
+
+                    Label:
+                        text: 'Machine Name'
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size:17
+                        bold:True
+                        text_size:self.size
+                        halign:'center'
+                        valign:'middle'
+
+                    Label:
+                        text: 'Machine Path'
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size:17
+                        bold:True
+                        text_size:self.size
+                        halign:'center'
+                        valign:'middle'
+
+                    Label:
+                        text: 'Drain Path'
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size:17
+                        bold:True
+                        text_size:self.size
+                        halign:'center'
+                        valign:'middle'
+
+                    Label:
+                        text: 'Slave ID'
+                        size_hint: None, None
+                        size: 150, 30
+                        font_size:17
+                        bold:True
+                        text_size:self.size
+                        halign:'center'
+                        valign:'middle'
+
+                    Label:
+                        id: machine_name
+                        size_hint: None, None
+                        size: 150, 30
+                        multiline: False
+                        readonly:True
+                        color:(0,0,0,1)
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1  # red
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+
+                    Label:
+                        id: machine_path
+                        size_hint: None, None
+                        size: 150, 30
+                        multiline: False
+                        readonly:True
+                        color:(0,0,0,1)
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1  # red
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                    Label:
+                        id: drain_path
+                        size_hint: None, None
+                        size: 150, 30
+                        multiline: False
+                        readonly:True
+                        color:(0,0,0,1)
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1  # red
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                    Label:
+                        id: slave_id
+                        size_hint: None, None
+                        size: 150, 30
+                        multiline: False
+                        readonly:True
+                        input_filter:'int'
+                        color:(0,0,0,1)
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1  # red
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+            BoxLayout:
+                size_hint:.1,1
+                pos_hint:{'center_x':.1}
+                MDRectangleFlatIconButton:
+                    pos_hint:{'center_x':.1}
+                    text: 'Save'
+                    id: save_button
+                    font_style: 'H6'
+                    size_hint: None, None
+                    size: 200, 30
+                    icon: 'content-save'
+                    icon_color: [1, 1, 1, 1]  # Light grey color
+                    font_size: '16dp'
+                    text_color: [1, 1, 1, 1]
+                    md_bg_color: [0.3, 0.3, 0.3, 1]
+                    on_release: root.save_tank_changes()
+                    on_press: app.change_button_color(self)
+
+        BoxLayout:
+            orientation:'horizontal'
+            size_hint:1,.2
+            BoxLayout:
+                size_hint:.11,1
+            GridLayout:
+                cols:5
+                spacing:20
+
+
+                Label:
+                    text:'Tank 1'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:17
+                    bold:True
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+
+                Label:
+                    text:'Tank 2'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:17
+                    bold:True
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+
+                Label:
+                    text:'Tank 3'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:17
+                    bold:True
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+
+                Label:
+                    text:'Tank 4'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:17
+                    bold:True
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+
+                Label:
+                    text:'Tank 5'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:17
+                    bold:True
+                    text_size:self.size
+                    halign:'center'
+                    valign:'middle'
+
+                Label:
+                    id:tank_1
+                    size_hint: None, None
+                    size: 150, 30
+                    multiline: False
+                    readonly:True
+                    color:(0,0,0,1)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+
+                Label:
+                    id:tank_2
+                    size_hint: None, None
+                    size: 150, 30
+                    multiline: False
+                    readonly:True
+                    color:(0,0,0,1)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+
+                Label:
+                    id:tank_3
+                    size_hint: None, None
+                    size: 150, 30
+                    multiline: False
+                    readonly:True
+                    color:(0,0,0,1)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                Label:
+
+                    id: tank_4
+                    size_hint: None, None
+                    size: 150, 30
+                    multiline: False
+                    readonly:True
+                    color:(0,0,0,1)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+
+                Label:
+                    id:tank_5
+                    size_hint: None, None
+                    size: 150, 30
+                    multiline: False
+                    readonly:True
+                    color:(0,0,0,1)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1  # red
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+
+
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # Light blue color (R, G, B, A)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            ScrollView:
+                GridLayout:
+                    id:set_tank
+                    cols:15
+                    size_hint_y: None
+                    height: self.minimum_height
+
+<NewTank>:
+    BoxLayout:
+        orientation:'horizontal'
+        GridLayout:
+            cols:2
+            spacing:20
+            padding:20
+            Label:
+                text: 'Machine Name'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TextInput:
+                id: machine_name
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+                input_filter:lambda text, from_undo:text if text.isalnum() or text == " " or text == "_" else ''
+
+
+            Label:
+                text: 'Machine Path'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TextInput:
+                id: machine_path
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+
+
+            Label:
+                text: 'Drain Path'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TextInput:
+                id: drain_path
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+
+            Label:
+                text: 'Slave ID'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TextInput:
+                id: slave_id
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+                hint_text:'value must be : 1-254'
+                input_filter: 'int'
+
+
+            Label:
+                text:'Tank 1'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+
+            TextInput:
+                id:tank_1
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+                input_filter: 'int'
+
+
+
+            Label:
+                text:'Tank 2'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TextInput:
+                id:tank_2
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+                input_filter: 'int'
+
+
+            Label:
+                text:'Tank 3'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TextInput:
+                id:tank_3
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+                input_filter: 'int'
+
+
+
+            Label:
+                text:'Tank 4'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TextInput:
+
+                id: tank_4
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+                input_filter: 'int'
+
+
+            Label:
+                text:'Tank 5'
+                size_hint: None, None
+                size: 150, 30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TextInput:
+                id:tank_5
+                size_hint: None, None
+                size: 250, 30
+                multiline: False
+                write_tab: False
+                input_filter: 'int'
+
+
+        BoxLayout:
+            pos_hint:{'center_y':.4}
+            GridLayout:
+                cols:2
+                spacing:20
+                padding:20
+                Label:
+                    text: 'Tank1 Stock'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:15
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                TextInput:
+                    id: tank1_stock
+                    size_hint: None, None
+                    hint_text:'kg'
+                    size: 250, 30
+                    multiline: False
+                    write_tab: False
+                    input_filter: 'int'
+                Label:
+                    text: 'Tank2 Stock'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:15
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                TextInput:
+                    id: tank2_stock
+                    size_hint: None, None
+                    hint_text:'kg'
+                    size: 250, 30
+                    multiline: False
+                    write_tab: False
+                    input_filter: 'int'
+
+                Label:
+                    text: 'Tank3 Stock'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:15
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                TextInput:
+                    id: tank3_stock
+                    size_hint: None, None
+                    hint_text:'kg'
+                    size: 250, 30
+                    multiline: False
+                    write_tab: False
+                    input_filter: 'int'
+                Label:
+                    text: 'Tank4 Stock'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:15
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                TextInput:
+                    id: tank4_stock
+                    size_hint: None, None
+                    hint_text:'kg'
+                    size: 250, 30
+                    multiline: False
+                    write_tab: False
+                    input_filter: 'int'
+                Label:
+                    text: 'Tank5 Stock'
+                    size_hint: None, None
+                    size: 150, 30
+                    font_size:15
+                    bold:True
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+
+                TextInput:
+                    id: tank5_stock
+                    hint_text:'kg'
+                    size_hint: None, None
+                    size: 250, 30
+                    multiline: False
+                    write_tab: False
+                    input_filter: 'int'
+                Button:
+                    text: 'Save'
+                    size_hint: None, None
+                    size: 150, 30
+                    on_release: root.save_tank_data(self)
+
+<TankWash>:
+
+    GridLayout:
+        cols:2
+        spacing:30
+        padding:30
+
+        TextInput:
+            id: search_input
+            size_hint: None, None
+            size: 300, 30
+            multiline: False
+            on_text: root.on_search_input_change(self.text)
+        Label:
+            id:selected_Machin
+            size_hint:None,None
+            size:100,30
+            font_size:40
+            bold:True
+            text_size:self.size
+            halign:'center'
+            valign:'middle'
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                id:total_machin
+                size_hint_y: None
+                height: self.minimum_height
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Light blue color (R, G, B, A)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+        BoxLayout:
+            orientation:'vertical'
+            spacing:20
+            padding:20
+            Button:
+                text:'Add'
+                size_hint:None,None
+                size:100,30
+                pos_hint: {'center_x': .2, 'center_y': .1}
+                on_release: root.on_add_button_press(isinstance)
+
+            Button:
+                text:'Open'
+                size_hint:None,None
+                size:100,30
+                pos_hint: {'center_x': .2, 'center_y': 0.7}
+                on_release: root.on_open_button_press(isinstance)
+            Widget:
+                size_hint:1,1
+
+
+
+
+<TankDetails>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:20
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint:1,.2
+            MDIconButton:
+                icon:'arrow-left'
+                tooltip_text:'home'
+                icon_size:'40sp'
+                on_release:root.go_to_tank_pop()
+                theme_text_color: 'Custom'
+                text_color: [1, 1, 1, 1]
+            Label:
+                text: ''
+                id: machin_id
+                size_hint: (None, None)
+                size: (150, 30)
+                font_size:40
+                bold:True
+                text_size:self.size
+                halign:'center'
+                valign:'middle'
+
+            Label:
+                text: ''
+                id: machin_name
+                size_hint: (None, None)
+                size: (200, 30)
+                font_size:25
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            MDRectangleFlatIconButton:
+                text: 'Save'
+                size_hint: None, None
+                size: 200, 30
+                icon: 'content-save'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release: root.save_tank_details(self)
+
+        GridLayout:
+            cols:5
+            spacing:10
+            padding:10
+            Label:
+                text: 'Tank'
+                id: tank
+                size_hint:(None, None)
+                size: (150,30)
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+            Label:
+                text:'TankPath'
+                id:tank_path
+                size_hint:None,None
+                size:150,30
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+            Label:
+                text:'PreWash'
+                id:pre_wash
+                size_hint:None,None
+                size:150,30
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+            Label:
+                text:'After wash1'
+                id:after_wash_1
+                size_hint:None,None
+                size:150,30
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+            Label:
+                text:'After wash2'
+                id:after_wash_2
+                size_hint:None,None
+                size:150,30
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            Label:
+                text:'Tank1'
+                id:tank_1
+                size_hint:None,None
+                size:100,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            AddTextInput:
+
+                id:tank_1_path
+                size_hint:None,None
+                size:150,30
+                color: 0, 0, 0, 1
+                readonly:True
+                multiline: False
+            AddTextInput:
+                text:''
+                id:tank_1_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            AddTextInput:
+                text:''
+                id:tank_1_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            AddTextInput:
+                text:''
+                id:tank_1_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            Label:
+                text:'Tank2'
+                id:tank_2
+                size_hint:None,None
+                size:100,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            AddTextInput:
+                text:''
+                id:tank_2_path
+                size_hint:None,None
+                size:150,30
+                readonly:True
+
+            AddTextInput:
+                text:''
+                id:tank_2_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            AddTextInput:
+                text:''
+                id:tank_2_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            AddTextInput:
+                text:''
+                id:tank_2_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            Label:
+                text:'Tank3'
+                id:tank_3
+                size_hint:None,None
+                size:100,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            AddTextInput:
+                text:''
+                id:tank_3_path
+                size_hint:None,None
+                size:150,30
+                readonly:True
+                multiline: False
+
+
+            AddTextInput:
+                text:''
+                id:tank_3_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            AddTextInput:
+                text:''
+                id:tank_3_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            AddTextInput:
+                text:''
+                id:tank_3_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+
+            Label:
+                text:'Tank4'
+                id:tank_4
+                size_hint:None,None
+                size:100,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            AddTextInput:
+                text:''
+                id:tank_4_path
+                size_hint:None,None
+                size:150,30
+                color: 1, 0, 0, 1
+                readonly:True
+                multiline: False
+
+            AddTextInput:
+                text:''
+                id:tank_4_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            AddTextInput:
+                text:''
+                id:tank_4_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            AddTextInput:
+                text:''
+                id:tank_4_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            Label:
+                text:'Tank5'
+                id:tank_5
+                size_hint:None,None
+                size:100,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            AddTextInput:
+                text:''
+                id:tank_5_path
+                size_hint:None,None
+                size:150,30
+                color: 1, 0, 0, 1
+                readonly:True
+                multiline: False
+
+
+
+            AddTextInput:
+                text:''
+                id:tank_5_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            AddTextInput:
+                text:''
+                id:tank_5_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            AddTextInput:
+                text:''
+                id:tank_5_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+<ShowTank>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:20
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint:1,.2
+            MDIconButton:
+                icon:'arrow-left'
+                tooltip_text:'home'
+                icon_size:'40sp'
+                on_release:root.go_tank_pop()
+                theme_text_color: 'Custom'
+                text_color: [1, 1, 1, 1]
+
+            Label:
+                text: ''
+                id: machin_id
+                size_hint: (None, None)
+                size: (150, 30)
+                font_size:40
+                bold:True
+                text_size:self.size
+                halign:'center'
+                valign:'middle'
+            Label:
+                text: ''
+                id: machin_names
+                size_hint: (None, None)
+                size: (200, 30)
+                font_size:25
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            MDRectangleFlatIconButton:
+                text: 'Save'
+                size_hint: None, None
+                size: 200, 30
+                icon: 'content-save'
+                icon_color: [1, 1, 1, 1]  # Light grey color
+                font_size: '16dp'
+                text_color: [1, 1, 1, 1]
+                md_bg_color: [0.3, 0.3, 0.3, 1]
+                on_release: root.update_tank_wash_data()
+
+        GridLayout:
+            cols:4
+            spacing:10
+            padding:10
+            Label:
+                text: 'Tank'
+                id: tank
+                size_hint:(None, None)
+                size: (100,30)
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            Label:
+                text:'PreWash'
+                id:pre_wash
+                size_hint:None,None
+                size:150,30
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+            Label:
+                text:'After wash1'
+                id:after_wash_1
+                size_hint:None,None
+                size:150,30
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+            Label:
+                text:'After wash2'
+                id:after_wash_2
+                size_hint:None,None
+                size:150,30
+                font_size:20
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            Label:
+                text:''
+                id:tank_1
+                size_hint:None,None
+                size:150,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+
+            TankTextInput:
+                text:''
+                id:tank_1_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            TankTextInput:
+                text:''
+                id:tank_1_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+            TankTextInput:
+                text:''
+                id:tank_1_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            Label:
+                text:''
+                id:tank_2
+                size_hint:None,None
+                size:150,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+
+            TankTextInput:
+                text:''
+                id:tank_2_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            TankTextInput:
+                text:''
+                id:tank_2_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            TankTextInput:
+                text:''
+                id:tank_2_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            Label:
+                text:''
+                id:tank_3
+                size_hint:None,None
+                size:150,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+
+            TankTextInput:
+                text:''
+                id:tank_3_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            TankTextInput:
+                text:''
+                id:tank_3_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            TankTextInput:
+                text:''
+                id:tank_3_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            Label:
+                text:''
+                id:tank_4
+                size_hint:None,None
+                size:150,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+
+            TankTextInput:
+                text:''
+                id:tank_4_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            TankTextInput:
+                text:''
+                id:tank_4_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            TankTextInput:
+                text:''
+                id:tank_4_after2
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+
+            Label:
+                text:''
+                id:tank_5
+                size_hint:None,None
+                size:150,30
+                font_size:15
+                bold:True
+                text_size:self.size
+                halign:'left'
+                valign:'middle'
+
+
+
+            TankTextInput:
+                text:''
+                id:tank_5_prewash
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+            TankTextInput:
+                text:''
+                id:tank_5_after1
+                size_hint:None,None
+                size:150,30
+                input_filter: 'float'
+                hint_text:"kg"
+                multiline: False
+
+            TankTextInput:
+                text: ''
+                id: tank_5_after2
+                size_hint: None, None
+                size: 150, 30
+                input_filter: 'float'
+                multiline: False
+                hint_text:"kg"

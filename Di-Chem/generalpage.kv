@@ -1,0 +1,398 @@
+<MyApp>:
+    orientation:'vertical'
+    title:'General'
+    canvas.before:
+        Color:
+            rgba: 32/255, 49/255, 65/255, 1 # Light blue color (R, G, B, A)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: .1
+        height: 40
+        pos_hint: {'top': 1}
+        canvas.before:
+            Color:
+                rgba: 32/255, 49/255, 65/255, 1 # Light blue color (R, G, B, A)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            padding: 70
+            spacing: 20
+            size_hint: None, None
+            size: 400, 70
+            pos_hint: {'center_y': 0.5, 'center_x': 0.1}
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    source: 'logo.png'
+                    pos: self.pos
+                    size: self.size
+        FloatLayout:
+            orientation: 'horizontal'
+            size_hint: 1, .1
+            height: 40
+            pos_hint: {'center_x': 1, 'center_y': 0.5}
+            background_color: (32/255, 49/255, 75/255, 1)
+
+            MDIconButton:
+                icon: 'home-circle-outline'
+                id: home
+                icon_size: '60sp'
+                on_release: app.delay_fn('switch_to_main')
+                pos_hint: {'center_x': 0.975, 'center_y': 0.2}
+                theme_text_color: 'Custom'
+                text_color: [1, 1, 1, 1]
+                radius: [50, 50, 50, 50]
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: 40
+        pos_hint: {'top': 1}
+        spacing: 20
+        canvas.before:
+            Color:
+                rgba: 32/255, 49/255, 65/255, 1 # Light blue color (R, G, B, A)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDRectangleFlatIconButton:
+            id: general_button
+            font_style: 'H6'
+            text: 'General'
+            size_hint: (.155, None)
+            icon: 'home-account'
+            icon_color: [1, 1, 1, 1]  # Light grey color
+            font_size: '16dp'
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0, 0, 0, 1]
+            background_color: 0.53, 0.81, 0.98, 1
+            on_release: app.delay_fn('switch_to_general')
+            on_press: app.change_button_color(self)
+
+        MDRectangleFlatIconButton:
+            text: 'User'
+            id: user_button
+            font_style: 'H6'
+            size_hint: (.155, None)
+            icon: 'account'
+            icon_color: [1, 1, 1, 1]  # Light grey color
+            font_size: '16dp'
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release: app.delay_fn('switch_to_user')
+            on_press: app.change_button_color(self)
+
+        MDRectangleFlatIconButton:
+            text: 'Tanks'
+            id: tanks_button
+            font_style: 'H6'
+            size_hint: (.155, None)
+            icon: 'gas-cylinder'
+            icon_color: [1, 1, 1, 1]  # Light grey color
+            font_size: '16dp'
+            text_color: [1, 1, 1, 1]
+            md_bg_color: [0.3, 0.3, 0.3, 1]
+            on_release: app.delay_fn('switch_to_tanks')
+            on_press: app.change_button_color(self)
+
+        Widget:
+            size_hint: 1, 1
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: 1, 1
+        BoxLayout:
+            orientation: 'vertical'
+            padding:20
+            BoxLayout:
+                size_hint: 1, .3
+
+                GridLayout:
+                    cols: 3
+                    size_hint: 1, .5
+                    spacing: 20
+                    Label:
+                        text: 'Default Water Wash:'
+                        size_hint: None, None
+                        size: 200, 30
+                        bold: True
+                        font_size: 20
+                        text_size: self.size
+                        halign: 'left'
+                        pos_hint: {'center_x': 0.5, 'center_y': 1}
+                        valign: 'middle'
+                    GridLayout:
+                        cols: 2
+                        spacing: 20
+                        padding: 10
+
+                        Label:
+                            text: 'After Wash1'
+                            size_hint: None, None
+                            size: 170, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Label:
+                            text: 'After Wash2'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        WashTextInput:
+                            id: default_water1
+                            size_hint: None, None
+                            size: 150, 30
+                            input_filter: 'float'
+                            multiline: False
+                            hint_text: "kg"
+
+                        WashTextInput:
+                            id: default_water2
+                            size_hint: None, None
+                            size: 150, 30
+                            multiline: False
+                            input_filter: 'float'
+                            hint_text: "kg"
+                    BoxLayout:
+                        size_hint:.2,1
+                        MDRectangleFlatIconButton:
+                            text: 'save'
+                            id: save_button
+                            font_style: 'H6'
+                            size_hint: None, None
+                            size: 200, 30
+                            icon: 'content-save'
+                            icon_color: [1, 1, 1, 1]  # Light grey color
+                            font_size: '16dp'
+                            text_color: [1, 1, 1, 1]
+                            md_bg_color: [0.3, 0.3, 0.3, 1]
+                            on_release: root.save_data_to_json()
+                            on_press: app.change_button_color(self)
+
+            BoxLayout:
+                size_hint: 1, .3
+                GridLayout:
+                    spacing: 20
+                    cols: 2
+                    size_hint: 1, .5
+                    Label:
+                        text: 'HMI:'
+                        size_hint: None, None
+                        size: 200, 30
+                        bold: True
+                        font_size: 20
+                        text_size: self.size
+                        halign: 'left'
+                        valign: 'middle'
+
+                    GridLayout:
+                        cols: 4
+                        spacing: 30
+                        padding: 10
+                        size_hint: .3, 1
+
+                        Label:
+                            text: 'Com Port'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Label:
+                            text: 'Baud Rate'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Label:
+                            text: 'No of Chemical'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Label:
+                            text: 'Max Tank Capacity'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Spinner:
+                            id: com_port
+                            size_hint: None, None
+                            size: 150, 30
+                            values: []
+                            background_color: 3, 3, 3, 1
+                            color: 0, 0, 0, 3
+                            on_text: root.spinner_clicked(com_port.text)
+
+                        Spinner:
+                            id: baud_rate
+                            size_hint: None, None
+                            size: 150, 30
+                            values: ['9600', '14400', '19200', '38400', '57600', '115200', '128000']
+                            background_color: 3, 3, 3, 1
+                            color: 0, 0, 0, 3
+                            on_text: root.spinner_clicked(com_port.text)
+
+                        TextInput:
+                            id: no_of_chemical
+                            size_hint: None, None
+                            size: 150, 30
+                            multiline: False
+                            input_filter: 'int'
+
+                        TextInput:
+                            id: max_tank_capacity
+                            size_hint: None, None
+                            size: 150, 30
+                            multiline: False
+                            input_filter: 'float'
+
+            BoxLayout:
+                size_hint: 1, .5
+                GridLayout:
+                    cols: 2
+                    spacing: 20
+                    size_hint: 1, .5
+                    BoxLayout:
+                        size_hint_x:.29
+                        Label:
+                            text: 'Machine:'
+                            size_hint: None, None
+                            size: 200, 30
+                            bold: True
+                            font_size: 20
+                            text_size: self.size
+                            halign: 'left'
+                            valign: 'middle'
+                            pos_hint:{'center_y':.5}
+                    GridLayout:
+                        cols: 5
+                        spacing: 30
+                        padding: 10
+
+                        Label:
+                            text: 'Com Port'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Label:
+                            text: 'Baud Rate'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Label:
+                            text: 'Machine SlaveID'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Label:
+                            text: 'No Of Station'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Label:
+                            text: 'Type Of Machine'
+                            size_hint: None, None
+                            size: 150, 30
+                            text_size: self.size
+                            halign: 'center'
+                            valign: 'middle'
+                            bold: True
+                            font_size: 16
+
+                        Spinner:
+                            id: machin_com_port
+                            size_hint: None, None
+                            size: 150, 30
+                            values: []
+                            background_color: 3, 3, 3, 1
+                            color: 0, 0, 0, 3
+                            on_text: root.spinner_clicked(machin_com_port.text)
+
+                        Spinner:
+                            id: machin_baud_rate
+                            size_hint: None, None
+                            size: 150, 30
+                            values: ['9600', '14400', '19200', '38400', '57600', '115200', '128000']
+                            background_color: 3, 3, 3, 1
+                            color: 0, 0, 0, 3
+                            on_text: root.spinner_clicked(com_port.text)
+
+                        TextInput:
+                            id: machin_slaveid
+                            size_hint: None, None
+                            size: 150, 30
+                            multiline: False
+                            input_filter: 'int'
+
+                        TextInput:
+                            id: no_of_station
+                            size_hint: None, None
+                            size: 150, 30
+                            multiline: False
+                            input_filter: 'int'
+
+                        Spinner:
+                            id: type_of_machin
+                            size_hint: None, None
+                            size: 150, 30
+                            values: ['Scale', 'Flow']
+                            background_color: 3, 3, 3, 1
+                            color: 0, 0, 0, 3
+                            on_text: root.spinner_clicked(type_of_machin.text)
+
+            BoxLayout:
+                size_hint: 1, 1
+
+        BoxLayout:
+            size_hint: 1, 1
