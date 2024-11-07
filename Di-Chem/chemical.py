@@ -23,10 +23,6 @@ from main import ConnectionManager
 from kivy.graphics import Color, Line
 chemical=Chemical()
 
-<<<<<<< HEAD
-print('how')
-
->>>>>>> 698c5fcec5a3b72afcb69935a5e48778ac1f719e
 class CustomTextInput(TextInput):
     def insert_text(self, substring, from_undo=False):
         # Get the current text in the TextInput
