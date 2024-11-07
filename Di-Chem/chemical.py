@@ -22,7 +22,7 @@ from database import *
 from main import ConnectionManager
 from kivy.graphics import Color, Line
 chemical=Chemical()
-print('hi')
+print('hellow')
 class CustomTextInput(TextInput):
     def insert_text(self, substring, from_undo=False):
         # Get the current text in the TextInput
